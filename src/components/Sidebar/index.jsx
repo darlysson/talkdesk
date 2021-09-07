@@ -1,13 +1,15 @@
 import React from 'react'
 import Link from 'next/link'
 
+import styles from './styles.module.scss'
+
 export function Sidebar() {
   return (
-    <aside>
+    <aside className={styles.sidebar}>
       <ul>
         <li>
           <Link href='#'>
-            <a>All</a>
+            <a className={styles.active}>All</a>
           </Link>
         </li>
         <li>

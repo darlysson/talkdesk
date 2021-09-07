@@ -1,0 +1,17 @@
+.searchContent {
+  @media (min-width: 1024px) {
+    display: flex;
+  }
+
+  .postContent {
+    flex-basis: 80%;
+
+    small {
+      font-size: 0.75rem;
+      color: var(--dark-purple);
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+  }
+}

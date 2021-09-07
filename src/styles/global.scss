@@ -5,6 +5,7 @@
   --dark-purple: #180136;
   --gray: #6b748c;
   --light-gray: #f4f5f6;
+  --shadow: #c3c3c3;
 }
 
 * {
@@ -17,7 +18,6 @@ body,
 input,
 button {
   font: 400 1rem 'Inter', helvetica, arial, sans-serif;
-  cursor: pointer;
 }
 
 a {
@@ -27,6 +27,12 @@ a {
 
 body {
   background: var(--light-gray);
+}
+
+main {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
 }
 
 @media (max-width: 1080px) {

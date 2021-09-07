@@ -2,15 +2,21 @@ import React from 'react'
 import { Sidebar } from '../Sidebar'
 import { PostItem } from '../PostItem'
 
+import styles from './styles.module.scss'
+
 export function SearchContent() {
   return (
-    <section>
+    <section className={styles.searchContent}>
       <Sidebar />
 
-      <div className='postContent'>
+      <div className={styles.postContent}>
         <small>Showing 721 results for talkdesk</small>
 
-        <div className='postList'>
+        <div>
+          <PostItem />
+          <PostItem />
+          <PostItem />
+          <PostItem />
           <PostItem />
         </div>
       </div>
