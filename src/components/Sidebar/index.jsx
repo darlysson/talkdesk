@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 
 import styles from './styles.module.scss'
 
 export function Sidebar({ labels }) {
+  const [isActive, setIsActive] = useState(false)
+
+  function handleLabel() {
+    labels.forEach((label) => {
+      console.log(label)
+    })
+  }
+
   return (
     <aside className={styles.sidebar}>
       <ul>
@@ -11,7 +19,12 @@ export function Sidebar({ labels }) {
           return (
             <li key={label.slug}>
               <Link href='#'>
-                <a className={styles.active}>{label.label}</a>
+                <a
+                  onClick={handleLabel}
+                  className={label.label == 'App' ? styles.active : ''}
+                >
+                  {label.label}
+                </a>
               </Link>
             </li>
           )

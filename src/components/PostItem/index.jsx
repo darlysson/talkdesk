@@ -3,19 +3,17 @@ import React from 'react'
 
 import styles from './styles.module.scss'
 
-export function PostItem() {
+export function PostItem(post) {
   return (
-    <Link href='#'>
+    <Link href={post.url}>
       <a className={styles.postItem}>
         <article>
           <div className={styles.info}>
-            <p className={styles.tag}>blog</p>
-            <p className={styles.date}>Aug 25, 2021</p>
+            <p className={styles.tag}>{post.category}</p>
+            <p className={styles.date}>{post.date}</p>
           </div>
-          <h1 className={styles.title}>
-            Talkdesk integration with Zoom unifies contact center collaboration
-          </h1>
-          <p className={styles.url}>/blog/talkdesk-zoom-collaboration/</p>
+          <h1 className={styles.title}>{post.title}</h1>
+          <p className={styles.url}>{post.url}</p>
         </article>
       </a>
     </Link>

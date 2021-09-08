@@ -4,24 +4,18 @@ import { PostItem } from '../PostItem'
 
 import styles from './styles.module.scss'
 
-import { usePosts } from '../../hooks/usePosts'
-
-export function SearchContent() {
-  const { posts, labels } = usePosts()
-
+export function SearchContent({ posts, labels }) {
   return (
     <section className={styles.searchContent}>
       <Sidebar labels={labels} />
 
       <div className={styles.postContent}>
-        <small>Showing 721 results for talkdesk</small>
+        <small>Showing {posts.length} results for talkdesk</small>
 
         <div>
-          <PostItem posts={posts} />
-          <PostItem />
-          <PostItem />
-          <PostItem />
-          <PostItem />
+          {posts.map((post) => (
+            <PostItem key={post.id} {...post} />
+          ))}
         </div>
       </div>
     </section>

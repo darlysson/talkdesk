@@ -1,10 +1,22 @@
+import react, { useState } from 'react'
+import fetch from 'node-fetch'
 import Head from 'next/head'
 import { SearchArea } from '../components/SearchArea'
 import { SearchContent } from '../components/SearchContent'
 
-import { PostsProvider } from '../hooks/usePosts'
+const url = 'https://cms.talkdesk.com/wp-json/external/globalsearch'
 
-export default function Home() {
+export default function Home({ data }) {
+  const [posts] = useState(data.posts.slice(0, 10))
+  const [labels] = useState(
+    [
+      {
+        label: 'App',
+        slug: 'app',
+      },
+    ].concat(data.menu)
+  )
+
   return (
     <>
       <Head>
@@ -12,14 +24,16 @@ export default function Home() {
       </Head>
 
       <main>
-        <PostsProvider>
-          <SearchArea />
-          <SearchContent />
-        </PostsProvider>
+        <SearchArea />
+        <SearchContent posts={posts} labels={labels} />
       </main>
     </>
   )
 }
 
-// escrever função getServerSideProps aqui
-// then: Passar isso para o SearchContent
+export async function getServerSideProps() {
+  const response = await fetch(url)
+  const data = await response.json()
+
+  return { props: { data } }
+}
