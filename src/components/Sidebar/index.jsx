@@ -6,10 +6,10 @@ import styles from './styles.module.scss'
 export function Sidebar({ labels }) {
   const [isActive, setIsActive] = useState(false)
 
-  function handleLabel() {
-    labels.forEach((label) => {
-      console.log(label)
-    })
+  function handleLabel(e, index) {
+    element.preventDefault()
+    // console.log(element)
+    console.log(index)
   }
 
   return (
@@ -20,8 +20,8 @@ export function Sidebar({ labels }) {
             <li key={label.slug}>
               <Link href='#'>
                 <a
-                  onClick={handleLabel}
-                  className={label.label == 'App' ? styles.active : ''}
+                  onClick={() => handleLabel(index)}
+                  className={isActive ? styles.active : ''}
                 >
                   {label.label}
                 </a>

@@ -4,8 +4,18 @@ import React from 'react'
 import styles from './styles.module.scss'
 
 export function PostItem(post) {
+  const talkdeskBaseUrl = 'https://talkdesk.com'
+
   return (
-    <Link href={post.url}>
+    <Link
+      href={
+        post.url.includes('http://') ||
+        post.url.includes('https://') ||
+        post.url.includes('https://talkdesk.com')
+          ? `${post.url}`
+          : `${talkdeskBaseUrl}${post.url}`
+      }
+    >
       <a className={styles.postItem}>
         <article>
           <div className={styles.info}>
