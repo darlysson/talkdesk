@@ -30,8 +30,8 @@ export function SearchContent({
     // if (array[index].label == label.label) {
     //   setIsActive(true)
     // }
-    setIsActive(label.label)
-    setIsActive2(labels[index].label)
+    // setIsActive(label.label)
+    // setIsActive2(labels[index].label)
     // console.log('array[index].label', )
     // console.log('label.label', label.label)
   }

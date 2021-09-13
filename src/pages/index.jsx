@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import fetch from 'node-fetch'
 import Head from 'next/head'
 import { SearchArea } from '../components/SearchArea'
@@ -8,25 +8,11 @@ const url = 'https://cms.talkdesk.com/wp-json/external/globalsearch'
 
 export default function Home({ data }) {
   const [currentSelection, setCurrentSelection] = useState('')
-  const [filteredData, setFilteredData] = useState([])
-  const [posts, setPosts] = useState([])
-
+  const posts = data.posts
   const labels = [{ label: 'All', slug: 'all' }].concat(data.menu)
-
-  const getFilteredPosts = (filtered) => {
-    setFilteredData(filtered)
-  }
-
-  const getAllPosts = (allPosts) => {
-    setPosts(allPosts)
-  }
-
-  useEffect(() => {
-    getFilteredPosts(
-      data.posts.filter((post) => post.category === currentSelection)
-    )
-    getAllPosts(data.posts)
-  }, [data.posts, currentSelection])
+  const filteredData = data.posts.filter(
+    (post) => post.category === currentSelection
+  )
 
   return (
     <>
@@ -52,6 +38,12 @@ export default function Home({ data }) {
 export async function getServerSideProps() {
   const response = await fetch(url)
   const data = await response.json()
+
+  if (!data) {
+    return {
+      notFound: true,
+    }
+  }
 
   return { props: { data } }
 }
