@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { PostItem } from '../PostItem'
 
@@ -9,11 +9,11 @@ export function SearchContent({
   labels,
   selectedFilter,
   filteredLength,
+  searchedContent,
 }) {
   const [isActive, setIsActive] = useState('')
-  const [isActive2, setIsActive2] = useState('')
 
-  function handleSelectFilter(label, index) {
+  function handleSelectFilter(label, index, array) {
     for (let i = 0; i < labels.length; i++) {
       if (label.label === 'Product') {
         selectedFilter('All')
@@ -22,31 +22,24 @@ export function SearchContent({
       } else if (label.label === labels[i].label) {
         selectedFilter(labels[i].label)
       }
-
-      // if (i == index) {
-      // }
     }
 
-    // if (array[index].label == label.label) {
-    //   setIsActive(true)
-    // }
-    // setIsActive(label.label)
-    // setIsActive2(labels[index].label)
-    // console.log('array[index].label', )
-    // console.log('label.label', label.label)
+    if (array[index].label == label.label) {
+      setIsActive(true)
+    }
   }
 
   return (
     <section className={styles.searchContent}>
       <aside className={styles.sidebar}>
         <ul>
-          {labels.map((label, index) => {
+          {labels.map((label, index, array) => {
             return (
               <li key={label.slug}>
                 <Link href='#'>
                   <a
-                    onClick={() => handleSelectFilter(label, index)}
-                    className={isActive === isActive2 ? 'active' : 'null'}
+                    onClick={() => handleSelectFilter(label, index, array)}
+                    className={isActive === label.label ? 'active' : null}
                   >
                     {label.label}
                   </a>
@@ -58,7 +51,11 @@ export function SearchContent({
       </aside>
 
       <section className={styles.postContent}>
-        <small>Showing {filteredLength} results for talkdesk</small>
+        <small>
+          {`Showing ${filteredLength} results for "${
+            searchedContent ? searchedContent : 'talkdesk'
+          }" `}
+        </small>
 
         <div>
           {posts.map((post) => (

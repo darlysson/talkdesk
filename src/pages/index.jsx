@@ -42,9 +42,14 @@ export default function Home({ data }) {
               : filteredData
           }
           filteredLength={
-            currentSelection === '' ? posts.length : filteredData.length
+            searchedItems.length > 0
+              ? searchedItems.length
+              : currentSelection === ''
+              ? posts.length
+              : filteredData.length
           }
           selectedFilter={setCurrentSelection}
+          searchedContent={search}
         />
       </main>
     </>
