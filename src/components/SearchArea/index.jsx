@@ -1,24 +1,15 @@
 import React, { useState } from 'react'
 import styles from './styles.module.scss'
 
-export function SearchArea() {
-  const [search, setSearch] = useState('')
-
-  function handleSearchItem(e) {
-    e.preventDefault()
-    console.log(search)
-    // const filtered = posts.find((post) => post.title === search)
-    // setPosts([filtered])
-  }
-
+export function SearchArea({ inputContent, searchItems }) {
   return (
     <div className={styles.inputContainer}>
       <input
         type='text'
         placeholder='Type to search'
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(e) => inputContent(e.target.value)}
       />
-      <button type='button' onClick={handleSearchItem}>
+      <button type='button' onClick={searchItems}>
         Search
       </button>
     </div>

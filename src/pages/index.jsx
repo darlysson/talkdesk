@@ -8,11 +8,21 @@ const url = 'https://cms.talkdesk.com/wp-json/external/globalsearch'
 
 export default function Home({ data }) {
   const [currentSelection, setCurrentSelection] = useState('')
+  const [searchedItems, setSearchedItems] = useState([])
+  const [search, setSearch] = useState('')
+
   const posts = data.posts
   const labels = [{ label: 'All', slug: 'all' }].concat(data.menu)
   const filteredData = data.posts.filter(
     (post) => post.category === currentSelection
   )
+
+  function handleSearchItem() {
+    const results = posts.filter((post) =>
+      post.title.toLowerCase().includes(search.toLowerCase())
+    )
+    setSearchedItems(results)
+  }
 
   return (
     <>
@@ -21,10 +31,16 @@ export default function Home({ data }) {
       </Head>
 
       <main>
-        <SearchArea />
+        <SearchArea inputContent={setSearch} searchItems={handleSearchItem} />
         <SearchContent
           labels={labels}
-          posts={currentSelection === '' ? posts : filteredData}
+          posts={
+            searchedItems.length > 0
+              ? searchedItems
+              : currentSelection === ''
+              ? posts
+              : filteredData
+          }
           filteredLength={
             currentSelection === '' ? posts.length : filteredData.length
           }
@@ -38,12 +54,6 @@ export default function Home({ data }) {
 export async function getServerSideProps() {
   const response = await fetch(url)
   const data = await response.json()
-
-  if (!data) {
-    return {
-      notFound: true,
-    }
-  }
 
   return { props: { data } }
 }
