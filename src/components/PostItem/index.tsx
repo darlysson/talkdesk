@@ -2,18 +2,9 @@ import Link from 'next/link'
 import React from 'react'
 
 import styles from './styles.module.scss'
+import { Post } from '../../../types'
 
-interface PostProps {
-  id: number,
-  title: string,
-  description: string,
-  slug: string,
-  url: string,
-  date: string,
-  category: string,
-}
-
-export function PostItem(post: PostProps) {
+export function PostItem(post: Post) {
   const talkdeskBaseUrl = 'https://talkdesk.com'
 
   return (

@@ -1,18 +1,10 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
+import { Labels } from '../../../types'
 
 import styles from './styles.module.scss'
 
-interface sidebarProps {
-  labels: [
-    {
-      label: string,
-      slug: string,
-    }
-  ]
-}
-
-export function Sidebar({ labels }: sidebarProps) {
+export function Sidebar({ labels }: Labels) {
   const [isActive, setIsActive] = useState(false)
 
   function handleLabel(index: number) {

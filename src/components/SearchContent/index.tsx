@@ -3,28 +3,15 @@ import Link from 'next/link'
 import { PostItem } from '../PostItem'
 
 import styles from './styles.module.scss'
+import { Post, Label } from '../../../types'
 
 interface SearchContentProps {
-  posts: IPosts[]
-  labels: ILabels[]
+  posts: Post[]
+  labels: Label[]
 
   selectedFilter: (value: string) => void
   filteredLength: number
   searchedContent: string
-}
-
-export interface ILabels {
-  label: string,
-  slug: string
-}
-export interface IPosts {
-  id: number
-  title: string
-  description: string
-  slug: string
-  url: string
-  date: string
-  category: string
 }
 
 export function SearchContent({

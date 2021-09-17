@@ -4,6 +4,7 @@ import fetch from 'node-fetch'
 import Head from 'next/head'
 import { SearchArea } from '../components/SearchArea'
 import { SearchContent } from '../components/SearchContent'
+import { Post } from '../../types'
 
 const url = 'https://cms.talkdesk.com/wp-json/external/globalsearch'
 
@@ -29,28 +30,9 @@ interface dataProps {
   }
 }
 
-interface postProps {
-  id: number,
-  title: string,
-  description: string,
-  slug: string,
-  url: string,
-  date: string,
-  category: string,
-}
-
-export interface labelProps {
-  labels: [
-    {
-      label: string,
-      slug: string
-    }
-  ]
-}
-
 export default function Home({ data }: dataProps) {
   const [currentSelection, setCurrentSelection] = useState<string>('')
-  const [searchedItems, setSearchedItems] = useState<postProps[]>([])
+  const [searchedItems, setSearchedItems] = useState<Post[]>([])
   const [search, setSearch] = useState('')
   const posts = data.posts
   const labels = [{ label: 'All', slug: 'all' }].concat(data.menu)
