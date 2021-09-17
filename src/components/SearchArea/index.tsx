@@ -1,7 +1,12 @@
 import React from 'react'
 import styles from './styles.module.scss'
 
-export function SearchArea({ inputContent, searchItems }) {
+interface searchAreaProps {
+  inputContent: (value: string) => void;
+  searchItems: () => void;
+}
+
+export function SearchArea({ inputContent, searchItems }: searchAreaProps) {
   return (
     <div className={styles.inputContainer}>
       <input

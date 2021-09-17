@@ -4,16 +4,39 @@ import { PostItem } from '../PostItem'
 
 import styles from './styles.module.scss'
 
+interface SearchContentProps {
+  posts: IPosts[]
+  labels: ILabels[]
+
+  selectedFilter: (value: string) => void
+  filteredLength: number
+  searchedContent: string
+}
+
+export interface ILabels {
+  label: string,
+  slug: string
+}
+export interface IPosts {
+  id: number
+  title: string
+  description: string
+  slug: string
+  url: string
+  date: string
+  category: string
+}
+
 export function SearchContent({
   posts,
   labels,
   selectedFilter,
   filteredLength,
   searchedContent,
-}) {
-  const [isActive, setIsActive] = useState('')
+}: SearchContentProps) {
+  const [isTest, setIsTest] = useState('')
 
-  function handleSelectFilter(label, index, array) {
+  function handleSelectFilter(label: { label: string }) {
     for (let i = 0; i < labels.length; i++) {
       if (label.label === 'Product') {
         selectedFilter('All')
@@ -22,24 +45,26 @@ export function SearchContent({
       } else if (label.label === labels[i].label) {
         selectedFilter(labels[i].label)
       }
+
+      //To be verified
+      if (labels[i].label == label.label) {
+        setIsTest(label.label)
+      }
     }
 
-    if (array[index].label == label.label) {
-      setIsActive(true)
-    }
   }
 
   return (
     <section className={styles.searchContent}>
       <aside className={styles.sidebar}>
         <ul>
-          {labels.map((label, index, array) => {
+          {labels.map((label) => {
             return (
               <li key={label.slug}>
                 <Link href='#'>
                   <a
-                    onClick={() => handleSelectFilter(label, index, array)}
-                    className={isActive === label.label ? 'active' : null}
+                    onClick={() => handleSelectFilter(label)}
+                    className={isTest === label.label ? 'active' : ''}
                   >
                     {label.label}
                   </a>
@@ -52,9 +77,8 @@ export function SearchContent({
 
       <section className={styles.postContent}>
         <small>
-          {`Showing ${filteredLength} results for "${
-            searchedContent ? searchedContent : 'talkdesk'
-          }" `}
+          {`Showing ${filteredLength} results for "${searchedContent ? searchedContent : 'talkdesk'
+            }" `}
         </small>
 
         <div>

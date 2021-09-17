@@ -3,15 +3,26 @@ import React from 'react'
 
 import styles from './styles.module.scss'
 
-export function PostItem(post) {
+interface PostProps {
+  id: number,
+  title: string,
+  description: string,
+  slug: string,
+  url: string,
+  date: string,
+  category: string,
+}
+
+export function PostItem(post: PostProps) {
   const talkdeskBaseUrl = 'https://talkdesk.com'
 
   return (
     <Link
       href={
+
         post.url.includes('http://') ||
-        post.url.includes('https://') ||
-        post.url.includes('https://talkdesk.com')
+          post.url.includes('https://') ||
+          post.url.includes('https://talkdesk.com')
           ? `${post.url}`
           : `${talkdeskBaseUrl}${post.url}`
       }

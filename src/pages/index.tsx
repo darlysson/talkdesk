@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { GetServerSideProps } from 'next'
+import { useState, useEffect } from 'react'
 import fetch from 'node-fetch'
 import Head from 'next/head'
 import { SearchArea } from '../components/SearchArea'
@@ -6,11 +7,51 @@ import { SearchContent } from '../components/SearchContent'
 
 const url = 'https://cms.talkdesk.com/wp-json/external/globalsearch'
 
-export default function Home({ data }) {
-  const [currentSelection, setCurrentSelection] = useState('')
-  const [searchedItems, setSearchedItems] = useState([])
-  const [search, setSearch] = useState('')
+interface dataProps {
+  data: {
+    posts: [
+      {
+        id: number,
+        title: string,
+        description: string,
+        slug: string,
+        url: string,
+        date: string,
+        category: string,
+      }
+    ]
+    menu: [
+      {
+        label: string,
+        slug: string,
+      }
+    ]
+  }
+}
 
+interface postProps {
+  id: number,
+  title: string,
+  description: string,
+  slug: string,
+  url: string,
+  date: string,
+  category: string,
+}
+
+export interface labelProps {
+  labels: [
+    {
+      label: string,
+      slug: string
+    }
+  ]
+}
+
+export default function Home({ data }: dataProps) {
+  const [currentSelection, setCurrentSelection] = useState<string>('')
+  const [searchedItems, setSearchedItems] = useState<postProps[]>([])
+  const [search, setSearch] = useState('')
   const posts = data.posts
   const labels = [{ label: 'All', slug: 'all' }].concat(data.menu)
   const filteredData = data.posts.filter(
@@ -38,15 +79,15 @@ export default function Home({ data }) {
             searchedItems.length > 0
               ? searchedItems
               : currentSelection === ''
-              ? posts
-              : filteredData
+                ? posts
+                : filteredData
           }
           filteredLength={
             searchedItems.length > 0
               ? searchedItems.length
               : currentSelection === ''
-              ? posts.length
-              : filteredData.length
+                ? posts.length
+                : filteredData.length
           }
           selectedFilter={setCurrentSelection}
           searchedContent={search}
@@ -56,7 +97,7 @@ export default function Home({ data }) {
   )
 }
 
-export async function getServerSideProps() {
+export const getServerSideProps: GetServerSideProps = async () => {
   const response = await fetch(url)
   const data = await response.json()
 
