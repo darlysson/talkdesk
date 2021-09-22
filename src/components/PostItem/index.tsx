@@ -18,7 +18,7 @@ export function PostItem(post: Post) {
           : `${talkdeskBaseUrl}${post.url}`
       }
     >
-      <a className={styles.postItem}>
+      <a target="_blank" className={styles.postItem}>
         <article>
           <div className={styles.info}>
             <p className={styles.tag}>{post.category}</p>

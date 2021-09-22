@@ -8,29 +8,26 @@ import { Post, Label } from '../../../types'
 interface SearchContentProps {
   posts: Post[]
   labels: Label[]
-
-  selectedFilter: (value: string) => void
-  filteredLength: number
+  filteredData: (value: string) => void
   searchedContent: string
 }
 
 export function SearchContent({
   posts,
   labels,
-  selectedFilter,
-  filteredLength,
   searchedContent,
+  filteredData
 }: SearchContentProps) {
   const [isTest, setIsTest] = useState('')
 
   function handleSelectFilter(label: { label: string }) {
     for (let i = 0; i < labels.length; i++) {
       if (label.label === 'Product') {
-        selectedFilter('All')
+        filteredData('All')
       } else if (label.label === 'All') {
-        selectedFilter('')
+        filteredData('')
       } else if (label.label === labels[i].label) {
-        selectedFilter(labels[i].label)
+        filteredData(labels[i].label)
       }
 
       //To be verified
@@ -45,10 +42,10 @@ export function SearchContent({
     <section className={styles.searchContent}>
       <aside className={styles.sidebar}>
         <ul>
-          {labels.map((label) => {
+          {labels.map((label: { label: string, slug: string }) => {
             return (
               <li key={label.slug}>
-                <Link href='#'>
+                <Link href="/">
                   <a
                     onClick={() => handleSelectFilter(label)}
                     className={isTest === label.label ? 'active' : ''}
@@ -64,8 +61,9 @@ export function SearchContent({
 
       <section className={styles.postContent}>
         <small>
-          {`Showing ${filteredLength} results for "${searchedContent ? searchedContent : 'talkdesk'
-            }" `}
+          {`Showing ${posts.length} results for 
+            "${searchedContent ? searchedContent : 'talkdesk'}" 
+          `}
         </small>
 
         <div>

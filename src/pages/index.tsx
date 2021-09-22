@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import fetch from 'node-fetch'
 import Head from 'next/head'
 import { SearchArea } from '../components/SearchArea'
@@ -31,20 +31,25 @@ interface dataProps {
 }
 
 export default function Home({ data }: dataProps) {
-  const [currentSelection, setCurrentSelection] = useState<string>('')
-  const [searchedItems, setSearchedItems] = useState<Post[]>([])
+  const posts = data.posts;
+  const [filteredPosts, setFilteredPosts] = useState<Post[]>(posts)
   const [search, setSearch] = useState('')
-  const posts = data.posts
   const labels = [{ label: 'All', slug: 'all' }].concat(data.menu)
-  const filteredData = data.posts.filter(
-    (post) => post.category === currentSelection
-  )
 
-  function handleSearchItem() {
+  function handleSearchItem(e: React.FormEvent<EventTarget>) {
+    e.preventDefault()
+
     const results = posts.filter((post) =>
       post.title.toLowerCase().includes(search.toLowerCase())
     )
-    setSearchedItems(results)
+    setFilteredPosts(results)
+  }
+
+  function handleFilteredData(currentFilter: string) {
+    const filteredData = posts.filter(
+      (post) => post.category === currentFilter
+    )
+    setFilteredPosts(currentFilter == "" ? posts : filteredData)
   }
 
   return (
@@ -54,24 +59,15 @@ export default function Home({ data }: dataProps) {
       </Head>
 
       <main>
-        <SearchArea inputContent={setSearch} searchItems={handleSearchItem} />
+        <SearchArea
+          inputContent={setSearch}
+          searchItems={handleSearchItem}
+        />
+
         <SearchContent
           labels={labels}
-          posts={
-            searchedItems.length > 0
-              ? searchedItems
-              : currentSelection === ''
-                ? posts
-                : filteredData
-          }
-          filteredLength={
-            searchedItems.length > 0
-              ? searchedItems.length
-              : currentSelection === ''
-                ? posts.length
-                : filteredData.length
-          }
-          selectedFilter={setCurrentSelection}
+          posts={filteredPosts}
+          filteredData={handleFilteredData}
           searchedContent={search}
         />
       </main>
