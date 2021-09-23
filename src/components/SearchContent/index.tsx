@@ -18,7 +18,8 @@ export function SearchContent({
   searchedContent,
   filteredData
 }: SearchContentProps) {
-  const [isTest, setIsTest] = useState('')
+
+  const [activeLabel, setActiveLabel] = useState('All')
 
   function handleSelectFilter(label: { label: string }) {
     for (let i = 0; i < labels.length; i++) {
@@ -30,9 +31,8 @@ export function SearchContent({
         filteredData(labels[i].label)
       }
 
-      //To be verified
       if (labels[i].label == label.label) {
-        setIsTest(label.label)
+        setActiveLabel(label.label)
       }
     }
 
@@ -48,7 +48,7 @@ export function SearchContent({
                 <Link href="/">
                   <a
                     onClick={() => handleSelectFilter(label)}
-                    className={isTest === label.label ? 'active' : ''}
+                    className={activeLabel === label.label ? styles.active : ''}
                   >
                     {label.label}
                   </a>

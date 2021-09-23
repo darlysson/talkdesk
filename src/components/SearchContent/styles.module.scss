@@ -26,6 +26,7 @@
           font-size: 1rem;
           font-weight: 600;
           position: relative;
+
           @media (max-width: 1200px) {
             font-size: 0.75rem;
           }
@@ -46,7 +47,7 @@
               padding: 4px 12px;
               border-radius: 4px;
 
-              &:after {
+              &::after {
                 display: none;
               }
             }
@@ -71,6 +72,7 @@
   .postContent {
     @media (min-width: 1024px) {
       max-width: 80%;
+      width: 100%;
     }
 
     small {
