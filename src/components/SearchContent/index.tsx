@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import Link from 'next/link'
+
+import Sidebar from '../Sidebar'
 import { PostItem } from '../PostItem'
 import Pagination from '../Pagination'
+
 import styles from './styles.module.scss'
 import { Post, Label } from '../../../types'
 
@@ -19,71 +21,33 @@ export function SearchContent({
   filteredData
 }: SearchContentProps) {
 
-  const [activeLabel, setActiveLabel] = useState('All')
-
-  function handleSelectFilter(label: { label: string }) {
-    for (let i = 0; i < labels.length; i++) {
-      if (label.label === 'Product') {
-        filteredData('All')
-      } else if (label.label === 'All') {
-        filteredData('')
-      } else if (label.label === labels[i].label) {
-        filteredData(labels[i].label)
-      }
-
-      if (labels[i].label == label.label) {
-        setActiveLabel(label.label)
-      }
-    }
-
-  }
-
   return (
-    <>
-      <section className={styles.searchContent}>
-        <aside className={styles.sidebar}>
-          <ul>
-            {labels.map((label: { label: string, slug: string }) => {
-              return (
-                <li key={label.slug}>
-                  <Link href="/">
-                    <a
-                      onClick={() => handleSelectFilter(label)}
-                      className={activeLabel === label.label ? styles.active : ''}
-                    >
-                      {label.label}
-                    </a>
-                  </Link>
-                </li>
-              )
-            })}
-          </ul>
-        </aside>
+    <section className={styles.searchContent}>
+      <Sidebar labels={labels} filteredData={filteredData} />
 
-        <section className={styles.postContent}>
-          <small>
-            {`Showing ${posts.length} results for 
+      <div className={styles.postContent}>
+        <small>
+          {`Showing ${posts.length} results for 
             "${searchedContent ? searchedContent : 'talkdesk'}" 
           `}
-          </small>
+        </small>
 
-          <div>
-            {posts.map((post) => (
-              <PostItem key={post.id} {...post} />
-            ))}
-          </div>
-        </section>
-      </section>
+        <div>
+          {posts.map((post) => (
+            <PostItem key={post.id} {...post} />
+          ))}
+        </div>
 
-      <section className={styles.pagination}>
-        {posts.length > 10 ?
-          <Pagination
-            data={posts}
-            pageLimit={5}
-            dataLimit={10}
-          />
-          : ""}
-      </section>
-    </>
+        <div className={styles.pagination}>
+          {posts.length > 10 ?
+            <Pagination
+              data={posts}
+              pageLimit={5}
+              dataLimit={10}
+            />
+            : ""}
+        </div>
+      </div>
+    </section>
   )
 }
