@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { PostItem } from '../PostItem'
-
+import Pagination from '../Pagination'
 import styles from './styles.module.scss'
 import { Post, Label } from '../../../types'
 
@@ -39,39 +39,51 @@ export function SearchContent({
   }
 
   return (
-    <section className={styles.searchContent}>
-      <aside className={styles.sidebar}>
-        <ul>
-          {labels.map((label: { label: string, slug: string }) => {
-            return (
-              <li key={label.slug}>
-                <Link href="/">
-                  <a
-                    onClick={() => handleSelectFilter(label)}
-                    className={activeLabel === label.label ? styles.active : ''}
-                  >
-                    {label.label}
-                  </a>
-                </Link>
-              </li>
-            )
-          })}
-        </ul>
-      </aside>
+    <>
+      <section className={styles.searchContent}>
+        <aside className={styles.sidebar}>
+          <ul>
+            {labels.map((label: { label: string, slug: string }) => {
+              return (
+                <li key={label.slug}>
+                  <Link href="/">
+                    <a
+                      onClick={() => handleSelectFilter(label)}
+                      className={activeLabel === label.label ? styles.active : ''}
+                    >
+                      {label.label}
+                    </a>
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+        </aside>
 
-      <section className={styles.postContent}>
-        <small>
-          {`Showing ${posts.length} results for 
+        <section className={styles.postContent}>
+          <small>
+            {`Showing ${posts.length} results for 
             "${searchedContent ? searchedContent : 'talkdesk'}" 
           `}
-        </small>
+          </small>
 
-        <div>
-          {posts.map((post) => (
-            <PostItem key={post.id} {...post} />
-          ))}
-        </div>
+          <div>
+            {posts.map((post) => (
+              <PostItem key={post.id} {...post} />
+            ))}
+          </div>
+        </section>
       </section>
-    </section>
+
+      <section className={styles.pagination}>
+        {posts.length > 10 ?
+          <Pagination
+            data={posts}
+            pageLimit={5}
+            dataLimit={10}
+          />
+          : ""}
+      </section>
+    </>
   )
 }
