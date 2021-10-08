@@ -1,27 +1,32 @@
-import React, { ChangeEvent } from 'react'
+import React, { useState, FormEvent } from 'react'
 import styles from './styles.module.scss'
+import { IoMdClose } from 'react-icons/io'
 
 interface searchAreaProps {
-  inputContent: (value: string) => void;
-  searchItems: (e: ChangeEvent<EventTarget>) => void;
+  handleSearchItem: (e: FormEvent<EventTarget>, inputData: string) => void;
 }
 
-export function SearchArea({ inputContent, searchItems }: searchAreaProps) {
+export function SearchArea({ handleSearchItem }: searchAreaProps) {
+  const [inputValue, setInputValue] = useState('')
+
   return (
     <form
-      onSubmit={(e: ChangeEvent<EventTarget>) => searchItems(e)}
-      className={styles.inputContainer}>
+      onSubmit={(e: FormEvent<EventTarget>) => handleSearchItem(e, inputValue)}
+      className={styles.form}>
 
-      <input
-        type='text'
-        placeholder='Type to search'
-        // value={e.target.value}
-        onChange={(e) => inputContent(e.target.value)}
-      />
+      <div className={styles.inputContainer}>
+        <input
+          type='text'
+          placeholder='Type to search'
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+        />
+        {inputValue && <IoMdClose onClick={() => setInputValue('')} />}
+      </div>
+
       <button
         type='button'
-        onClick={(e: ChangeEvent<EventTarget>) => searchItems(e)}>
-
+        onClick={(e: FormEvent<EventTarget>) => handleSearchItem(e, inputValue)}>
         Search
       </button>
     </form>

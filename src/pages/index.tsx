@@ -1,7 +1,8 @@
-import { GetServerSideProps } from 'next'
-import { useState } from 'react'
+import { useState, useEffect, FormEvent } from 'react'
 import fetch from 'node-fetch'
 import Head from 'next/head'
+import { GetServerSideProps } from 'next'
+
 import { SearchArea } from '../components/SearchArea'
 import { SearchContent } from '../components/SearchContent'
 import { Post } from '../../types'
@@ -34,15 +35,16 @@ export default function Home({ data }: dataProps) {
   const posts = data.posts;
   const [filteredPosts, setFilteredPosts] = useState<Post[]>(posts)
   const [search, setSearch] = useState('')
-  const labels = [{ label: 'All', slug: 'all' }].concat(data.menu)
+  const labels = [{ label: 'All', slug: 'all' }, ...data.menu]
 
-  function handleSearchItem(e: React.FormEvent<EventTarget>) {
+  function handleSearchItem(e: FormEvent<EventTarget>, inputData: string) {
     e.preventDefault()
 
     const results = posts.filter((post) =>
-      post.title.toLowerCase().includes(search.toLowerCase())
+      post.title.toLowerCase().includes(inputData.toLowerCase())
     )
     setFilteredPosts(results)
+    setSearch(inputData)
   }
 
   function handleFilteredData(currentFilter: string) {
@@ -52,6 +54,10 @@ export default function Home({ data }: dataProps) {
     setFilteredPosts(currentFilter == "" ? posts : filteredData)
   }
 
+  function handlePaginatedData(selectedPosts: Post[]) {
+    setFilteredPosts(selectedPosts)
+  }
+
   return (
     <>
       <Head>
@@ -59,16 +65,13 @@ export default function Home({ data }: dataProps) {
       </Head>
 
       <main>
-        <SearchArea
-          inputContent={setSearch}
-          searchItems={handleSearchItem}
-        />
-
+        <SearchArea handleSearchItem={handleSearchItem} />
         <SearchContent
           labels={labels}
           posts={filteredPosts}
           filteredData={handleFilteredData}
           searchedContent={search}
+          handlePaginatedData={handlePaginatedData}
         />
       </main>
     </>
