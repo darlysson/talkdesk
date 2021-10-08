@@ -1,8 +1,9 @@
-import Link from 'next/link'
 import React from 'react'
+import Link from 'next/link'
+
+import { Post } from '../../../types'
 
 import styles from './styles.module.scss'
-import { Post } from '../../../types'
 
 export function PostItem(post: Post) {
   const talkdeskBaseUrl = 'https://talkdesk.com'
@@ -10,7 +11,6 @@ export function PostItem(post: Post) {
   return (
     <Link
       href={
-
         post.url.includes('http://') ||
           post.url.includes('https://') ||
           post.url.includes('https://talkdesk.com')
